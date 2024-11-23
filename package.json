@@ -1,0 +1,16 @@
+{
+  "name": "attack-manager",
+  "version": "1.0.0",
+  "description": "Attack manager with proxy support for Vercel.",
+  "main": "api/attack.js",
+  "scripts": {
+    "start": "node api/attack.js"
+  },
+  "keywords": ["express", "vercel", "api"],
+  "dependencies": {
+    "axios": "latest",
+    "socks-proxy-agent": "^8.0.3",
+    "https-proxy-agent": "^7.0.4",
+    "express": "^4.18.2"
+  }
+}
