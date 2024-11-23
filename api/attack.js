@@ -38,7 +38,7 @@ app.post('/api/attack', (req, res) => {
 // Fungsi untuk membaca daftar proxy dari file
 function readProxyList() {
   try {
-    const data = fs.readFileSync('proxy.txt', 'utf8');
+    const data = fs.readFileSync('lib/proxy.txt', 'utf8');
     return data.trim().split('\n').map(line => line.trim());
   } catch (error) {
     console.error('Failed to read proxy list:', error);
