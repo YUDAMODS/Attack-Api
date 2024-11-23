@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attack Manager</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Attack Manager</h1>
+    <h2>Launch Your Attack with Precision</h2>
+    <form id="attackForm">
+      <div class="form-group">
+        <label for="targetUrl">Target URL:</label>
+        <input type="text" id="targetUrl" name="targetUrl" placeholder="http://example.com" required>
+      </div>
+      <div class="form-group">
+        <label for="method">Attack Method:</label>
+        <select id="method" name="method" required>
+          <option value="http">HTTP Request Flood</option>
+          <option value="socks">SOCKS Proxy Flood</option>
+          <option value="https">HTTPS Proxy Flood</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="requests">Total Requests:</label>
+        <input type="number" id="requests" name="requests" value="1000" min="1" required>
+      </div>
+      <button type="submit">Start Attack</button>
+    </form>
+    <div class="loading" id="loadingMessage">Launching attack...</div>
+  </div>
+
+  <script>
+    const form = document.getElementById('attackForm');
+    const loadingMessage = document.getElementById('loadingMessage');
+    
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const targetUrl = form.targetUrl.value;
+      const method = form.method.value;
+      const requests = form.requests.value;
+
+      // Show loading animation
+      loadingMessage.style.display = 'block';
+
+      try {
+        const response = await fetch('/api/attack', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            text: targetUrl,
+            method: method,
+            totalRequests: parseInt(requests),
+          }),
+        });
+
+        const data = await response.json();
+        
+        // Hide loading message
+        loadingMessage.style.display = 'none';
+
+        if (response.ok) {
+          alert(`Attack started successfully against ${targetUrl}.`);
+        } else {
+          alert(`Error: ${data.message}`);
+        }
+      } catch (error) {
+        console.error('Error during attack:', error);
+        alert('Failed to start attack. Please try again.');
+      }
+    });
+  </script>
+
+</body>
+</html>
